@@ -1,103 +1,102 @@
-import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
-import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';  // Importa el paquete de Flutter para usar widgets y temas.
+import 'package:english_words/english_words.dart';  // Importa el paquete para generar pares de palabras en inglés.
+import 'package:flutter/rendering.dart';  // Importa el paquete para manipulación avanzada de renderizado.
+import 'package:provider/provider.dart';  // Importa el paquete Provider para gestión de estado.
 
-void main() {
-  runApp(const MyApp());
+void main() {  
+  runApp(const MyApp());  // Ejecuta la aplicación MyApp.
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {  // Define una clase StatelessWidget llamada MyApp.
+  const MyApp({super.key});  // Constructor de MyApp.
 
- @override
-  Widget build(BuildContext context) {
-    
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Namer App',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 18, 101, 5)),
+  @override
+  Widget build(BuildContext context) {  
+    return ChangeNotifierProvider(  // Proporciona un ChangeNotifier a los widgets descendientes.
+      create: (context) => MyAppState(),  // Crea una instancia de MyAppState.
+      child: MaterialApp(  // Envuelve la aplicación en un MaterialApp.
+        title: 'Namer App',  // Título de la aplicación.
+        theme: ThemeData(  // Define el tema de la aplicación.
+          useMaterial3: true,  // Activa el uso de Material 3.
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 18, 101, 5)),  // Establece un esquema de color basado en una semilla.
         ),
-        home: MyHomePage(),
+        home: MyHomePage(),  // Define la página inicial de la aplicación.
       ),
     );
   }
 }
 
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
+class MyAppState extends ChangeNotifier {  // Clase para manejar el estado de la aplicación.
+  var current = WordPair.random();  // Variable que almacena un par de palabras aleatorio.
+  
+  void getNext() {  
+    current = WordPair.random();  // Genera un nuevo par de palabras aleatorio.
+    notifyListeners();  // Notifica a los oyentes sobre el cambio.
   }
-  var favorites = <WordPair>[];
+  
+  var favorites = <WordPair>[];  // Lista que almacena los pares de palabras favoritos.
 
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
+  void toggleFavorite() {  
+    if (favorites.contains(current)) {  // Verifica si el par actual está en la lista de favoritos.
+      favorites.remove(current);  // Si está, lo elimina.
     } else {
-      favorites.add(current);
+      favorites.add(current);  // Si no está, lo agrega.
     }
-    notifyListeners();
+    notifyListeners();  // Notifica a los oyentes sobre el cambio.
   }
 }
 
-
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatefulWidget {  // Define una clase StatefulWidget llamada MyHomePage.
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();  // Crea el estado asociado a MyHomePage.
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> {  
+  var selectedIndex = 0;  // Variable que almacena el índice del botón de navegación seleccionado.
   
-  var selectedIndex = 0; 
   @override
-  
-  Widget build(BuildContext context) {
-  Widget page;
-switch (selectedIndex) {
-  case 0:
-    page = GeneratorPage();
-    break;
-  case 1:
-    page = Placeholder();
-    break;
-  default:
-    throw UnimplementedError('no widget for $selectedIndex');
-}
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Scaffold(
-          body: Row(
+  Widget build(BuildContext context) {  
+    Widget page;  // Variable para almacenar el widget de la página actual.
+    switch (selectedIndex) {  
+      case 0:
+        page = GeneratorPage();  // Si el índice es 0, muestra GeneratorPage.
+        break;
+      case 1:
+        page = Placeholder();  // Si el índice es 1, muestra un Placeholder.
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');  // Lanza un error si el índice no es válido.
+    }
+    return LayoutBuilder(  
+      builder: (context, constraints) {  
+        return Scaffold(  
+          body: Row(  
             children: [
-              SafeArea(
-                child: NavigationRail(
-                  extended: constraints.maxWidth >= 600,
+              SafeArea(  
+                child: NavigationRail(  
+                  extended: constraints.maxWidth >= 600,  // Extiende el rail de navegación si el ancho es suficiente.
                   destinations: [
                     NavigationRailDestination(
-                      icon: Icon(Icons.home),
-                      label: Text('Home'),
+                      icon: Icon(Icons.home),  // Ícono para la pestaña Home.
+                      label: Text('Home'),  // Etiqueta para la pestaña Home.
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.favorite),
-                      label: Text('Favorites'),
+                      icon: Icon(Icons.favorite),  // Ícono para la pestaña Favorites.
+                      label: Text('Favorites'),  // Etiqueta para la pestaña Favorites.
                     ),
                   ],
-                  selectedIndex: selectedIndex, 
-                  onDestinationSelected: (value) {
-                     setState(() {
-                      selectedIndex = value;
+                  selectedIndex: selectedIndex,  // Establece el índice seleccionado.
+                  onDestinationSelected: (value) {  
+                    setState(() {
+                      selectedIndex = value;  // Cambia el índice seleccionado cuando se selecciona una nueva pestaña.
                     });
                   },
                 ),
               ),
-              Expanded(
-                child: Container(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  child: page,
+              Expanded(  
+                child: Container(  
+                  color: Theme.of(context).colorScheme.primaryContainer,  // Establece el color del fondo del contenedor.
+                  child: page,  // Muestra la página actual.
                 ),
               ),
             ],
@@ -108,45 +107,42 @@ switch (selectedIndex) {
   }
 }
 
-class GeneratorPage extends StatelessWidget {
+class GeneratorPage extends StatelessWidget {  // Define una clase StatelessWidget llamada GeneratorPage.
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair = appState.current;
+    var appState = context.watch<MyAppState>();  // Obtiene el estado de la aplicación.
+    var pair = appState.current;  // Obtiene el par de palabras actual.
     
-
-    IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
+    IconData icon;  
+    if (appState.favorites.contains(pair)) {  
+      icon = Icons.favorite;  // Si el par está en favoritos, usa el ícono de favorito lleno.
     } else {
-      icon = Icons.favorite_border;
+      icon = Icons.favorite_border;  // Si no está en favoritos, usa el ícono de favorito vacío.
     }
     
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Center(  
+      child: Column(  
+        mainAxisAlignment: MainAxisAlignment.center,  // Centra los hijos en el eje principal.
         children: [
-          BigCard(pair: pair),
-          SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
+          BigCard(pair: pair),  // Muestra una tarjeta grande con el par de palabras.
+          SizedBox(height: 10),  // Añade un espacio de 10 píxeles.
+          Row(  
+            mainAxisSize: MainAxisSize.min,  // Ajusta el tamaño mínimo en el eje principal.
             children: [
-              
-              ElevatedButton.icon(
-                onPressed: () {
-                  appState.toggleFavorite();
+              ElevatedButton.icon(  
+                onPressed: () {  
+                  appState.toggleFavorite();  // Alterna el estado de favorito del par de palabras.
                 },
-                icon: Icon(icon),
-                label: Text('Like'),
+                icon: Icon(icon),  // Muestra el ícono correspondiente.
+                label: Text('Like'),  // Etiqueta del botón.
               ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
+              SizedBox(width: 10),  // Añade un espacio de 10 píxeles.
+              ElevatedButton(  
+                onPressed: () {  
+                  appState.getNext();  // Genera el siguiente par de palabras.
                 },
-                child: Text('Next'),
+                child: Text('Next'),  // Etiqueta del botón.
               ),
-              
             ],
           ),
         ],
@@ -155,34 +151,62 @@ class GeneratorPage extends StatelessWidget {
   }
 }
 
-
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends StatelessWidget {  // Define una clase StatelessWidget llamada FavoritesPage.
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    var appState = context.watch<MyAppState>();  // Obtiene el estado de la aplicación.
 
-    if (appState.favorites.isEmpty) {
-      return Center(
-        child: Text('No favorites yet.'),
+    if (appState.favorites.isEmpty) {  
+      return Center(  
+        child: Text('No favorites yet.'),  // Muestra un mensaje si no hay favoritos.
       );
     }
 
-    return ListView(
+    return ListView(  
       children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
+        Padding(  
+          padding: const EdgeInsets.all(20),  // Añade padding de 20 píxeles.
           child: Text('You have '
-              '${appState.favorites.length} favorites:'),
+              '${appState.favorites.length} favorites:'),  // Muestra el número de favoritos.
         ),
-        for (var pair in appState.favorites)
-          ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text(pair.asLowerCase),
+        for (var pair in appState.favorites)  
+          ListTile(  
+            leading: Icon(Icons.favorite),  // Ícono de favorito.
+            title: Text(pair.asLowerCase),  // Texto del par de palabras en minúsculas.
           ),
       ],
     );
   }
 }
+
+class BigCard extends StatelessWidget {  // Define una clase StatelessWidget llamada BigCard.
+  const BigCard({
+    super.key,
+    required this.pair,  // Requiere un par de palabras.
+  });
+
+  final WordPair pair;  // Variable para almacenar el par de palabras.
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);  // Obtiene el tema de la aplicación.
+    final style = theme.textTheme.displayMedium!.copyWith(  
+      color: theme.colorScheme.onPrimary,  // Establece el color del texto.
+    );
+    return Card(  
+      color: theme.colorScheme.primary,  // Establece el color de la tarjeta.
+      child: Padding(  
+        padding: const EdgeInsets.all(20),  // Añade padding de 20 píxeles.
+        child: Text(
+          pair.asLowerCase,  // Muestra el par de palabras en minúsculas.
+          style: style,  // Aplica el estilo de texto.
+          semanticsLabel: "${pair.first} ${pair.second}",  // Etiqueta semántica.
+        ),
+      ),
+    );
+  }
+}
+
 /* class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -236,30 +260,3 @@ class FavoritesPage extends StatelessWidget {
   }
 }
  */
-class BigCard extends StatelessWidget {
-  const BigCard({
-    super.key,
-    required this.pair,
-  });
-
-  final WordPair pair;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
-    return Card(
-      color: theme.colorScheme.primary, 
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text(
-          pair.asLowerCase,
-          style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
-        ),
-      ),
-    );
-  }
-}
