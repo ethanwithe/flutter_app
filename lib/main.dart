@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import
+
 import 'package:flutter/material.dart';  // Importa el paquete de Flutter para usar widgets y temas.
 import 'package:english_words/english_words.dart';  // Importa el paquete para generar pares de palabras en inglés.
 import 'package:flutter/rendering.dart';  // Importa el paquete para manipulación avanzada de renderizado.
