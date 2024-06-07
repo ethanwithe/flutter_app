@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {  // Define una clase StatelessWidget llama
         title: 'Namer App',  // Título de la aplicación.
         theme: ThemeData(  // Define el tema de la aplicación.
           useMaterial3: true,  // Activa el uso de Material 3.
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 18, 101, 5)),  // Establece un esquema de color basado en una semilla.
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 12, 150, 127)),  // Establece un esquema de color basado en una semilla.
         ),
         home: MyHomePage(),  // Define la página inicial de la aplicación.
       ),
@@ -64,12 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();  // Si el índice es 0, muestra GeneratorPage.
         break;
       case 1:
-        page = Placeholder();  // Si el índice es 1, muestra un Placeholder.
+        page = FavoritesPage();  // Si el índice es 1, muestra un Placeholder.
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');  // Lanza un error si el índice no es válido.
     }
-    return LayoutBuilder(  
+    return LayoutBuilder(
       builder: (context, constraints) {  
         return Scaffold(  
           body: Row(  
