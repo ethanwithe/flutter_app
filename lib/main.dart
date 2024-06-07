@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {  // Define una clase StatelessWidget llama
     return ChangeNotifierProvider(  // Proporciona un ChangeNotifier a los widgets descendientes.
       create: (context) => MyAppState(),  // Crea una instancia de MyAppState.
       child: MaterialApp(  // Envuelve la aplicación en un MaterialApp.
-        title: 'Namer App',  // Título de la aplicación.
+        title: 'My Primera App',  // Título de la aplicación.
         theme: ThemeData(  // Define el tema de la aplicación.
           useMaterial3: true,  // Activa el uso de Material 3.
           colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 12, 150, 127)),  // Establece un esquema de color basado en una semilla.
@@ -80,11 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   destinations: [
                     NavigationRailDestination(
                       icon: Icon(Icons.home),  // Ícono para la pestaña Home.
-                      label: Text('Home'),  // Etiqueta para la pestaña Home.
+                      label: Text('Principal'),  // Etiqueta para la pestaña Home.
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.favorite),  // Ícono para la pestaña Favorites.
-                      label: Text('Favorites'),  // Etiqueta para la pestaña Favorites.
+                      label: Text('Favoritos'),  // Etiqueta para la pestaña Favorites.
                     ),
                   ],
                   selectedIndex: selectedIndex,  // Establece el índice seleccionado.
@@ -136,14 +136,14 @@ class GeneratorPage extends StatelessWidget {  // Define una clase StatelessWidg
                   appState.toggleFavorite();  // Alterna el estado de favorito del par de palabras.
                 },
                 icon: Icon(icon),  // Muestra el ícono correspondiente.
-                label: Text('Like'),  // Etiqueta del botón.
+                label: Text('Me Gusta'),  // Etiqueta del botón.
               ),
               SizedBox(width: 10),  // Añade un espacio de 10 píxeles.
               ElevatedButton(  
                 onPressed: () {  
                   appState.getNext();  // Genera el siguiente par de palabras.
                 },
-                child: Text('Next'),  // Etiqueta del botón.
+                child: Text('Siguiente'),  // Etiqueta del botón.
               ),
             ],
           ),
@@ -160,7 +160,7 @@ class FavoritesPage extends StatelessWidget {  // Define una clase StatelessWidg
 
     if (appState.favorites.isEmpty) {  
       return Center(  
-        child: Text('No favorites yet.'),  // Muestra un mensaje si no hay favoritos.
+        child: Text('No tienes favoritos.'),  // Muestra un mensaje si no hay favoritos.
       );
     }
 
@@ -168,8 +168,8 @@ class FavoritesPage extends StatelessWidget {  // Define una clase StatelessWidg
       children: [
         Padding(  
           padding: const EdgeInsets.all(20),  // Añade padding de 20 píxeles.
-          child: Text('You have '
-              '${appState.favorites.length} favorites:'),  // Muestra el número de favoritos.
+          child: Text('Tienes '
+              '${appState.favorites.length} Favoritos:'),  // Muestra el número de favoritos.
         ),
         for (var pair in appState.favorites)  
           ListTile(  
